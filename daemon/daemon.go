@@ -575,6 +575,9 @@ func (d *daemon) CreateEvent(req *pb.CreateEventRequest, resp pb.Daemon_CreateEv
 	loggerInstance := &GrpcLogger{resp: resp}
 	ctx := context.WithValue(resp.Context(), "grpc_logger", loggerInstance)
 	ev, err := d.ehost.CreateEventFromConfig(ctx, conf)
+	if err != nil {
+		return err
+	}
 	conf_ := ev.GetConfig()
 
 	var frontendNames []string
